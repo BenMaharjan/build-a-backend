@@ -1,4 +1,5 @@
 import express from "express"
+import fs from "node:fs/promises"
 
 const app = express();
 const port = 3000;
@@ -14,4 +15,24 @@ app.listen(port, ()=>{
 app.get("/", (req,res)=> {
     res.status(200).send("Hello world");
     console.log("Hello World")
+})
+
+// Given I am a developer who has the Activity API running,
+// When I make a GET request to “http://localhost:3000/activities”
+// Then the the request should succeed, responding with the correct status code and an array of User Activity objects in the response body (response.data).
+
+app.get("/activities", async (req, res) => {   
+    try {
+        const activitesString = await fs.readFile("./activities.json", "utf-8");
+        const activitesData = JSON.parse(activitesString);
+
+        console.log(activitesData);
+        
+        res.status(200).json({
+            "Success :": true,
+            "Payload :": activitesData
+        })
+    } catch {
+        console.error("ERROR")
+    }
 })
