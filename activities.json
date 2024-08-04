@@ -1,9 +1,26 @@
 [
-    {
-        "id": "54321234", 
-        "activity_submitted": "1719486190058", 
-        "activity_type": "run", 
-        "activity_duration": "30"
-    }
+  {
+    "id": "54321234",
+    "activity_submitted": "1719486190058",
+    "activity_type": "run",
+    "activity_duration": "30"
+  },
+  {
+    "id": "2",
+    "activity_submitted": "1719486190058",
+    "activity_type": "walk",
+    "activity_duration": "30"
+  },
+  {
+    "id": "3",
+    "activity_submitted": "1719486190058",
+    "activity_type": "walk",
+    "activity_duration": "30"
+  },
+  {
+    "id": "7",
+    "activity_submitted": "1719486190058",
+    "activity_type": "walk",
+    "activity_duration": "30"
+  }
 ]
-
