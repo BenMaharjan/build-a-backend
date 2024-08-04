@@ -76,3 +76,57 @@ app.post("/activities", async (req,res)=>{
         });
     }
 });
+
+// Given I am a developer who has the Activity API running,
+// When I make a PUT request to “http://localhost:3000/activities” with a request body containing a JSON object (updated activity),
+// Then the API should update the activity in the activities.json file that has a matching activity id,
+// Then the the request should succeed, responding with the correct status code and the activity object that I posted as the response body (response.data).
+
+app.put("/activities", async (req,res)=> {
+    try {
+        const activitesString = await fs.readFile("./activities.json", "utf-8");
+        const activitesData = JSON.parse(activitesString);        
+        
+        const updateId = req.params.id;
+        const updatedActivities = req.body;
+        let activityFound = false;
+
+        for(let i=0; i<activitesData.length; i++) {
+            if(updatedActivities.id===activitesData[i].id) {
+                activitesData[i].activity_submitted=updatedActivities.activity_submitted;
+                activitesData[i].activity_type=updatedActivities.activity_type;
+                activitesData[i].activity_duration=updatedActivities.activity_duration;
+                activityFound = true;
+                break;
+            }else {
+                continue;
+            }
+        }  
+
+        if(activityFound===false){
+            res.status(404).json({
+                "Success :": false,
+                "Payload :": "matching ID not found"
+            });   
+        }
+
+        await fs.writeFile("./activities.json", JSON.stringify(updatedActivities, null,2));
+        console.log(updatedActivities.activity_type);
+        console.log(activitesData.activity_type);
+        
+        res.status(200).json({
+            "Success :": true,
+            "Payload :": updatedActivities
+        });     
+
+    }  catch(error) {
+        if (!res.headersSent) {
+            res.status(500).json({
+                success: false,
+                message: 'Internal Server Error'
+            });
+        } else {
+            console.error('Failed to send error response:', error);
+        }
+    }
+})  
